@@ -12,9 +12,19 @@ EXPOSE 80
 WORKDIR /app
 
 RUN apt-get update -y && \
-    apt-get install -y tesseract-ocr-eng && \
+    apt-get install -y tesseract-ocr-eng \
+                       pdftoppm \
+                       pdftocairo \
+                       libreoffice-core-nogui \
+                       libreoffice-common-nogui \
+                       libreoffice-writer-nogui \
+                       libreoffice-calc-nogui \
+                       libreoffice-impress-no-gui \
+                       --no-install-recommends && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+
 
 COPY pyproject.toml .
 COPY uv.lock .
