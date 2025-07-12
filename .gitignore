@@ -1,7 +1,8 @@
-.idea
+.idea/
 uv.lock
-.venv
-__pycache__
-logs
-data
-models
+.venv/*
+__pycache__/
+logs/
+data/
+models/
+/.idea/
