@@ -35,3 +35,10 @@ class Embedder:
         :return: A Tensor in the shape of N_text1 x N_text2.
         """
         return self.model.similarity(text1, text2)
+
+
+def get_embedder() -> Embedder:
+    if hasattr(get_embedder, 'embedder'):
+        return getattr(get_embedder, 'embedder')
+    setattr(get_embedder, 'embedder', Embedder())
+    return getattr(get_embedder, 'embedder')
