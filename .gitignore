@@ -1,0 +1,7 @@
+.idea
+uv.lock
+.venv
+__pycache__
+logs
+data
+models
