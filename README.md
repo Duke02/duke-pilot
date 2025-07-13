@@ -96,7 +96,7 @@ This is a personal learning project, I will likely drop this after the end of th
 
 ## 📄 License
 
-MIT License
+Apache License
 
 ## Disclosure
 
