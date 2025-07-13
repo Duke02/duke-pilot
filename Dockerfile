@@ -31,9 +31,9 @@ COPY uv.lock .
 # https://docs.astral.sh/uv/guides/integration/docker/#intermediate-layers
 RUN uv sync --locked --no-install-project
 
-ADD duke_pilot /app
+ADD duke_pilot ./duke_pilot
 
 # Sync the project
 RUN uv sync --locked --no-cache
 
-CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "80", "--host", "0.0.0.0"]
+CMD ["uv", "run", "uvicorn", "duke_pilot.main:app", "--port", "80", "--host", "0.0.0.0"]

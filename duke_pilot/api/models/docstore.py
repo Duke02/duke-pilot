@@ -6,13 +6,13 @@ from duke_pilot.api.models.parser import ParseResponse
 
 
 class Chunk(BaseModel):
-    kind: str = 'chunk'
+    kind: Literal['chunk'] = 'chunk'
     chunk_id: str
     chunk_text: str
 
 
 class Memory(BaseModel):
-    kind: str = 'memory'
+    kind: Literal['memory'] = 'memory'
     memory_id: str
     memory: str
 
