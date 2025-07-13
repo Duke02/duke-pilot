@@ -22,7 +22,7 @@
 
 .
 ├── docker-compose.yaml       # Runs the full app + doc store
-├── duke\_pilot/               # Main application
+├── duke_pilot/               # Main application
 │   ├── api/                  # FastAPI endpoints for chat, docstore, parser
 │   ├── docstore/             # In-memory or persistent vector storage
 │   ├── processors/           # File parsers, chunkers, embedding logic
@@ -84,9 +84,7 @@ uv run uvicorn duke_pilot.main:app --reload
 ## 🎯 Roadmap
 
 * [ ] Add simple web chat UI
-* [ ] Add user auth
 * [ ] Model hot-swap support via config
-* [ ] Optimized chunk deduplication
 
 ---
 
@@ -100,3 +98,6 @@ This is a personal learning project, I will likely drop this after the end of th
 
 MIT License
 
+## Disclosure
+
+This README.md was generated with ChatGPT and reviewed and modified by me.
