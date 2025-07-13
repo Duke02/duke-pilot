@@ -11,19 +11,23 @@ EXPOSE 80
 
 WORKDIR /app
 
+# RUN #update-ca-certificates
+# COPY ca-certificates.crt .
+# ENV REQUESTS_CA_BUNDLe /app/ca-certificates.crt
+
 RUN apt-get update -y && \
     apt-get install -y tesseract-ocr-eng \
+                       tesseract-ocr \
                        poppler-utils \
                        libreoffice-core-nogui \
                        libreoffice-common \
                        libreoffice-writer-nogui \
                        libreoffice-calc-nogui \
                        libreoffice-impress-nogui \
-                       --no-install-recommends && \
+                       openssl \
+                       ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-
 
 COPY pyproject.toml .
 COPY uv.lock .
@@ -32,8 +36,10 @@ COPY uv.lock .
 RUN uv sync --locked --no-install-project
 
 ADD duke_pilot ./duke_pilot
+ADD scripts ./scripts
 
 # Sync the project
-RUN uv sync --locked --no-cache
+RUN uv sync --native-tls --locked --no-cache
+RUN uv run --native-tls python -m scripts.setup
 
 CMD ["uv", "run", "uvicorn", "duke_pilot.main:app", "--port", "80", "--host", "0.0.0.0"]
