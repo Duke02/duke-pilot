@@ -13,13 +13,12 @@ WORKDIR /app
 
 RUN apt-get update -y && \
     apt-get install -y tesseract-ocr-eng \
-                       pdftoppm \
-                       pdftocairo \
+                       poppler-utils \
                        libreoffice-core-nogui \
-                       libreoffice-common-nogui \
+                       libreoffice-common \
                        libreoffice-writer-nogui \
                        libreoffice-calc-nogui \
-                       libreoffice-impress-no-gui \
+                       libreoffice-impress-nogui \
                        --no-install-recommends && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
