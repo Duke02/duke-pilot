@@ -3,7 +3,8 @@ import typing as tp
 
 import numpy as np
 import qdrant_client
-from qdrant_client.models import *
+# from qdrant_client.models import
+from qdrant_client.models import PointStruct, Record, QueryResponse, ScoredPoint
 
 from duke_pilot.utils.path_helper import get_data_directory
 from duke_pilot.processors.embedder import get_embedder, Embedder
@@ -31,8 +32,8 @@ def get_docs(ids: list[str], collection_name: str) -> list[str]:
     return [rec.payload['text'] for rec in records]
 
 
-def query_docs(query_text: str, collection_name: str, limit: int = 10) -> list[str]:
+def query_docs(query_text: str, collection_name: str, limit: int = 10) -> list[tuple[str, str]]:
     embedding: np.ndarray = embedder.encode([query_text])
-    resp: QueryResponse = client.query_points(collection_name=collection_name, points=embedding[0], limit=limit, with_payload=True)
-    return [p.payload['text'] for p in resp.points]
+    points: list[ScoredPoint] = client.query_points(collection_name=collection_name, points=embedding[0], limit=limit, with_payload=True).points
+    return [(p.id, p.payload['text']) for p in points]
 

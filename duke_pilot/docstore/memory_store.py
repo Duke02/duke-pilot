@@ -19,11 +19,11 @@ def get_memories(memory_ids: list[str]) -> list[str]:
     return get_docs(memory_ids, 'memories')
 
 
-def query_memories(query_text: str, limit: int = 10) -> list[str]:
+def query_memories(query_text: str, limit: int = 10) -> list[tuple[str, str]]:
     """
     Queries the memory collection from the docstore with the provided text.
     :param query_text: The text to use for your query.
     :param limit: The max number of memories to return.
-    :return: The text of the memories.
+    :return: A list of tuples in the format of [(memory id, memory text), ...]
     """
     return query_docs(query_text, collection_name='memories', limit=limit)

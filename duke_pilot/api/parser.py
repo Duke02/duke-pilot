@@ -15,7 +15,7 @@ def _get_parser() -> DocParser:
     return parser
 
 
-@router.get('/parse')
+@router.post('/parse')
 async def parse(file: UploadFile, force: bool = False) -> ParseResponse:
     """
     Parses the provided file and gives you the text.

@@ -14,11 +14,11 @@ def get_chunks(chunk_ids: list[str]) -> list[str]:
     return get_docs(chunk_ids, 'chunks')
 
 
-def query_chunks(query_text: str, limit: int = 10) -> list[str]:
+def query_chunks(query_text: str, limit: int = 10) -> list[tuple[str, str]]:
     """
     Queries the chunk store by the provided query_text.
     :param query_text: The text to query the chunk collection within the doc-store for.
     :param limit: The max number of chunks to get.
-    :return: The text of the chunks.
+    :return: A list of tuples in the format of [(chunk id, chunk text), ...]
     """
     return query_docs(query_text, collection_name='chunks', limit=limit)
