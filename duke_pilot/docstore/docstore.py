@@ -1,3 +1,4 @@
+import logging
 import os
 import typing as tp
 
@@ -9,6 +10,10 @@ from qdrant_client.models import PointStruct, Record, QueryResponse, ScoredPoint
 from duke_pilot.utils.path_helper import get_data_directory
 from duke_pilot.processors.embedder import get_embedder, Embedder
 from duke_pilot.utils.uuid import get_uuid
+from duke_pilot.utils.log_utils import DukeLogger
+
+
+logger: DukeLogger = DukeLogger(__name__)
 
 
 # communicate with our Docker compose doc-store container
@@ -16,6 +21,7 @@ client: qdrant_client.QdrantClient = qdrant_client.QdrantClient(url=f'http://doc
 embedder: Embedder = get_embedder()
 
 
+@logger.log
 def add_docs(texts: list[str], collection_name: str) -> list[str]:
     ids: list[str] = [get_uuid() for _ in range(len(texts))]
     if not client.collection_exists(collection_name):
@@ -27,13 +33,14 @@ def add_docs(texts: list[str], collection_name: str) -> list[str]:
     return ids
 
 
+@logger.log
 def get_docs(ids: list[str], collection_name: str) -> list[str]:
     records: list[Record] = client.retrieve(collection_name=collection_name, ids=ids)
     return [rec.payload['text'] for rec in records]
 
 
+@logger.log
 def query_docs(query_text: str, collection_name: str, limit: int = 10) -> list[tuple[str, str]]:
     embedding: np.ndarray = embedder.encode([query_text])
     points: list[ScoredPoint] = client.query_points(collection_name=collection_name, points=embedding[0], limit=limit, with_payload=True).points
     return [(p.id, p.payload['text']) for p in points]
-

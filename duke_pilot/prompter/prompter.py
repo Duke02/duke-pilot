@@ -1,10 +1,18 @@
+import logging
+import typing as tp
+
 from pydantic_ai import Agent, Tool
 
 from duke_pilot.docstore.chunk_store import get_chunks, query_chunks
 from duke_pilot.docstore.memory_store import get_memories, add_memories, query_memories
 from duke_pilot.prompter.model import HuggingFaceLocalModel
+from duke_pilot.utils.log_utils import DukeLogger
 
 
+logger: DukeLogger = DukeLogger(__name__)
+
+
+@logger.log
 def get_agent() -> Agent:
     if hasattr(get_agent, 'agent'):
         return getattr(get_agent, 'agent')

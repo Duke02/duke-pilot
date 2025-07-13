@@ -1,6 +1,7 @@
 """
 Currently parses Word, Excel, Powerpoint, and their open document equivalents.
 """
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -8,15 +9,22 @@ import subprocess
 import typing as tp
 
 from duke_pilot.processors.doc_parser import pdf_parser
+from duke_pilot.utils.log_utils import DukeLogger
 from duke_pilot.utils.path_helper import get_data_directory
 from duke_pilot.utils.uuid import get_uuid
 
+
+logger: DukeLogger = DukeLogger(__name__)
+
+
+@logger.log
 def _get_path(file_ext: str) -> Path:
     p: Path = get_data_directory() / 'parser'
     p.mkdir(exist_ok=True, parents=True)
     return p / f'{get_uuid()}.{file_ext}'
 
 
+@logger.log
 def _convert_to_pdf(f: tp.BinaryIO, file_ext: str) -> Path:
     out_path: Path = _get_path(file_ext)
     with out_path.open(mode='wb') as of:
@@ -41,6 +49,7 @@ def _convert_to_pdf(f: tp.BinaryIO, file_ext: str) -> Path:
     return pdf_path
 
 
+@logger.log
 def from_file_io(f: tp.BinaryIO, file_ext: str) -> str:
     pdf_path: Path = _convert_to_pdf(f, file_ext)
 

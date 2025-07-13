@@ -90,3 +90,16 @@ class DukeLogger:
                 self.error(f"Exception raised in {func.__name__}. exception: {str(e)}")
                 raise e
         return wrapper
+
+    async def alog(self, func: tp.Callable):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            self.debug(f'Calling function {func.__name__}', *args, **kwargs)
+            try:
+                result = await func(*args, **kwargs)
+                self.debug(f'{func.__name__} got result of {self._serialize_arg(result)}')
+                return result
+            except Exception as e:
+                self.error(f"Exception raised in {func.__name__}. exception: {str(e)}")
+                raise e
+        return wrapper
