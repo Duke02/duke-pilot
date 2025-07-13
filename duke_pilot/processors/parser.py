@@ -17,6 +17,10 @@ class DocParser:
             self.parsers[ext] = doc_parser.from_file_io
         self.parsers['txt'] = text_parser.from_file_io
 
+    @property
+    def supported_file_extensions(self) -> set[str]:
+        return set(self.parsers.keys())
+
     def parse(self, f: BinaryIO, file_ext: str) -> str:
         parser_f: tp.Callable[[BinaryIO, str], str] = self.parsers[file_ext]
         return parser_f(f, file_ext)
